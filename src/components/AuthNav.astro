@@ -1,0 +1,25 @@
+---
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/astro/components";
+import Button from "./Button.astro";
+---
+
+<SignedOut>
+  <SignInButton mode="modal" asChild>
+    <Button> Sign In </Button>
+  </SignInButton>
+</SignedOut>
+<SignedIn>
+  <UserButton
+    showName
+    appearance={{
+      elements: {
+        userButtonOuterIdentifier: "!text-[#f1f1ef]",
+      },
+    }}
+  />
+</SignedIn>
