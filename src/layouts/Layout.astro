@@ -1,4 +1,6 @@
 ---
+import AuthNav from "../components/AuthNav.astro";
+import Typography from "../components/Typography.astro";
 import "../styles/global.css";
 ---
 
@@ -11,16 +13,32 @@ import "../styles/global.css";
     <meta name="generator" content={Astro.generator} />
     <title>Astro Basics</title>
   </head>
-  <body>
+  <body
+    class="bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] flex flex-col min-h-screen"
+  >
+    <header>
+      <nav class="fixed w-full z-20 top-0 start-0 backdrop-blur-lg">
+        <div
+          class="max-w-screen-lg flex flex-wrap items-center md:justify-between justify-center md:gap-0 gap-4 mx-auto p-4"
+        >
+          <a href="/" class="flex items-center space-x-3">
+            <Typography
+              as="span"
+              variant="h3"
+              color="white"
+              class="self-center whitespace-nowrap"
+            >
+              SnippetsHub
+            </Typography>
+          </a>
+          <!--    <NavMenu /> -->
+          <div>
+            <AuthNav />
+          </div>
+        </div>
+      </nav>
+    </header>
+
     <slot />
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
