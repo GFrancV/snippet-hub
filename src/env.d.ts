@@ -7,3 +7,29 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface SaveSnippetData {
+  clerk_user_id: string;
+  title: string;
+  description: string;
+  code: string;
+  language: string;
+}
+
+interface SaveSnippetSuccess {
+  success: true;
+  data: {
+    title: string;
+    description: string;
+    code: string;
+    language: string;
+  };
+}
+
+interface SaveSnippetError {
+  success: false;
+  error: string;
+  details?: PostgrestError;
+}
+
+type SaveSnippetResult = SaveSnippetSuccess | SaveSnippetError;
