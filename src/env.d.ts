@@ -33,3 +33,12 @@ interface SaveSnippetError {
 }
 
 type SaveSnippetResult = SaveSnippetSuccess | SaveSnippetError;
+
+type SnippetLanguages =
+  | "javascript"
+  | "typescript"
+  | "python"
+  | "java"
+  | "csharp"
+  | "html"
+  | "css";
