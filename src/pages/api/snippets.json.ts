@@ -16,41 +16,44 @@ export const POST: APIRoute = async ({ locals, request }) => {
     const data = await request.json();
     const validatedData = snippetFormSchema.parse(data);
 
-    const snippetSaved = await saveSnippet({
+    const saveResult: SaveSnippetResult = await saveSnippet({
       clerk_user_id: user.id,
       title: validatedData.title,
       description: validatedData.description,
-      code: validatedData.snippet,
-      language: "javascript",
+      code: validatedData.code,
+      language: validatedData.language,
     });
-    if (!snippetSaved) {
+    if (!saveResult.success) {
       return new Response(JSON.stringify({ message: "Error saving snippet" }), {
         status: 500,
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     return new Response(
       JSON.stringify({
-        message: `Your name was: ${validatedData.title}`,
+        message: `Snippet ${validatedData.title} saved successfully`,
+        data: saveResult.data,
       }),
       {
         status: 200,
+        headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(
         JSON.stringify({
-          message: "Error de validación",
+          message: "Validation error",
           errors: error.errors,
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    return new Response(
-      JSON.stringify({ message: "Error interno del servidor" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ message: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };

@@ -5,7 +5,15 @@ export const snippetFormSchema = z.object({
     .string()
     .min(2, { message: "The title must have at least 2 characters" }),
   description: z.string(),
-  snippet: z.string(),
+  code: z.string(),
+  language: z.enum([
+    "javascript",
+    "python",
+    "java",
+    "typescript",
+    "css",
+    "html",
+  ]),
 });
 
 export type SnippetFormData = z.infer<typeof snippetFormSchema>;
