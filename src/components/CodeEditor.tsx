@@ -44,7 +44,7 @@ export default ({ language }: Props) => {
         options={options}
       />
 
-      <input type="hidden" id="snippet" name="snippet" value={code} />
+      <input type="hidden" name="code" value={code} />
     </>
   );
 };
