@@ -2,14 +2,7 @@ import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 
 interface Props {
-  language:
-    | "javascript"
-    | "typescript"
-    | "python"
-    | "java"
-    | "csharp"
-    | "html"
-    | "css";
+  language: SnippetLanguages;
 }
 
 export default ({ language }: Props) => {
@@ -38,7 +31,8 @@ export default ({ language }: Props) => {
       <Editor
         height="340px"
         theme="vs-dark"
-        defaultLanguage={language}
+        defaultLanguage="javascript"
+        language={language}
         onChange={handleEditorChange}
         defaultValue="console.log('Hello world!')"
         options={options}
