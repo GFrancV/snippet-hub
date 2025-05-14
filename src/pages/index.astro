@@ -1,8 +1,30 @@
 ---
-import SnippetForm from "../components/SnippetForm.tsx";
+import Typography from "../components/Typography.astro";
 import Layout from "../layouts/Layout.astro";
+import { getPublicSnippets } from "../service/snippets";
+
+const snippets = await getPublicSnippets();
+if (!snippets) {
+  throw new Error("Failed to fetch snippets");
+}
 ---
 
 <Layout>
-  <SnippetForm client:only />
+  <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
+    {
+      snippets.map(({ id, title, description }) => (
+        <div class="bg-[#1e1e1e] shadow-md rounded-sm border border-transparent transition p-6 hover:bg-fuchsia-300/30 hover:border-fuchsia-200">
+          <Typography as="h2" variant="h3" color="white">
+            {title}
+          </Typography>
+          <Typography as="p" variant="body" color="neutral">
+            {description}
+          </Typography>
+          <a href={`/snippet/${id}`} class="text-blue-500 hover:underline">
+            View Snippet
+          </a>
+        </div>
+      ))
+    }
+  </div>
 </Layout>

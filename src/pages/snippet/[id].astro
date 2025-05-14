@@ -1,0 +1,30 @@
+---
+import { Code } from "astro:components";
+import Layout from "../../layouts/Layout.astro";
+import { getSnippet } from "../../service/snippets";
+
+const id = Astro.params.id ? parseInt(Astro.params.id) : NaN;
+
+if (!id) {
+  throw new Error("Snippet ID is required");
+}
+
+let snippet = null;
+if (!isNaN(id)) {
+  snippet = await getSnippet(id);
+}
+
+if (isNaN(id) || snippet === null) {
+  return Astro.redirect("/404");
+}
+
+const title = snippet ? snippet.title : "Snippet no encontrado";
+---
+
+<Layout>
+  <article>
+    <h1>{snippet.title}</h1>
+    <p>ID: {snippet.id}</p>
+    <Code code={snippet.code} lang={snippet.language} class="p-4" />
+  </article>
+</Layout>
