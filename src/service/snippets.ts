@@ -17,6 +17,7 @@ export const saveSnippet = async ({
   });
 
   if (error) {
+    console.error("Error saving snippet:", error);
     return {
       success: false,
       error: "Failed to save snippet to database.",
@@ -48,7 +49,7 @@ export const getPublicSnippets = async (): Promise<
 };
 
 export const getSnippet = async (
-  id: number
+  id: string
 ): Promise<Tables<"snippets"> | null> => {
   const { data, error } = await supabase
     .from("snippets")

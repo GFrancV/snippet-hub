@@ -3,18 +3,14 @@ import { Code } from "astro:components";
 import Layout from "../../layouts/Layout.astro";
 import { getSnippet } from "../../service/snippets";
 
-const id = Astro.params.id ? parseInt(Astro.params.id) : NaN;
+const { id } = Astro.params;
 
 if (!id) {
   throw new Error("Snippet ID is required");
 }
 
-let snippet = null;
-if (!isNaN(id)) {
-  snippet = await getSnippet(id);
-}
-
-if (isNaN(id) || snippet === null) {
+const snippet = await getSnippet(id);
+if (!id || snippet === null) {
   return Astro.redirect("/404");
 }
 
