@@ -48,6 +48,20 @@ export const getPublicSnippets = async (): Promise<
   return data;
 };
 
+export const getMySnippets = async (
+  clerk_user_id: string
+): Promise<Tables<"snippets">[] | null> => {
+  const { data, error } = await supabase
+    .from("snippets")
+    .select("*")
+    .eq("clerk_user_id", clerk_user_id);
+  if (error) {
+    console.error("Error fetching snippets:", error);
+    return null;
+  }
+  return data;
+};
+
 export const getSnippet = async (
   id: string
 ): Promise<Tables<"snippets"> | null> => {

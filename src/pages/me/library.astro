@@ -1,0 +1,26 @@
+---
+import SnippetCard from "../../components/SnippetCard.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getMySnippets } from "../../service/snippets";
+
+const { userId } = Astro.locals.auth();
+if (!userId) {
+  return Astro.redirect("/login");
+}
+
+const snippets = await getMySnippets(userId);
+---
+
+<Layout>
+  <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
+    {
+      snippets === null || snippets.length === 0 ? (
+        <p class="text-center text-gray-500">No snippets found</p>
+      ) : (
+        snippets.map(({ id, title, description }) => (
+          <SnippetCard id={id} title={title} description={description} />
+        ))
+      )
+    }
+  </div>
+</Layout>

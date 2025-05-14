@@ -1,0 +1,29 @@
+---
+import Typography from "./Typography.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  description: string | null;
+}
+
+const { id, title, description } = Astro.props;
+---
+
+<div
+  class="bg-[#1e1e1e] shadow-md rounded-sm border border-transparent transition p-6 hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
+>
+  <Typography as="h2" variant="h3" color="white">
+    {title}
+  </Typography>
+  {
+    description === null && (
+      <Typography as="p" variant="body" color="neutral">
+        {description}
+      </Typography>
+    )
+  }
+  <a href={`/snippet/${id}`} class="text-blue-500 hover:underline">
+    View Snippet
+  </a>
+</div>
