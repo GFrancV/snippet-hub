@@ -34,7 +34,7 @@ export default ({ language }: Props) => {
         defaultLanguage="javascript"
         language={language}
         onChange={handleEditorChange}
-        defaultValue="console.log('Hello world!')"
+        defaultValue="// Insert your code here"
         options={options}
       />
 
