@@ -71,7 +71,7 @@ export default () => {
 
     setErrors({});
     setIsLoading(false);
-    window.location.href = "/ruta-destino";
+    window.location.href = `/snippet`;
   };
 
   return (
