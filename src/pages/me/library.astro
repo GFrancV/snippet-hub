@@ -3,9 +3,9 @@ import SnippetCard from "../../components/SnippetCard.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getMySnippets } from "../../service/snippets";
 
-const { userId } = Astro.locals.auth();
+const { userId, redirectToSignIn } = Astro.locals.auth();
 if (!userId) {
-  return Astro.redirect("/login");
+  return redirectToSignIn();
 }
 
 const snippets = await getMySnippets(userId);
