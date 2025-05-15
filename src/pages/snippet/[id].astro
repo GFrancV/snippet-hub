@@ -1,5 +1,8 @@
 ---
+import { Image } from "astro:assets";
 import { Code } from "astro:components";
+import SnippetStars from "../../components/SnippetStars";
+import Typography from "../../components/Typography.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getSnippet } from "../../service/snippets";
 
@@ -13,14 +16,33 @@ const snippet = await getSnippet(id);
 if (!id || snippet === null) {
   return Astro.redirect("/404");
 }
-
-const title = snippet ? snippet.title : "Snippet no encontrado";
 ---
 
 <Layout>
   <article>
-    <h1>{snippet.title}</h1>
-    <p>ID: {snippet.id}</p>
+    <header class="flex items-start justify-between mb-2">
+      <Typography as="h1" variant="h2" color="white">
+        {snippet.title}
+      </Typography>
+      <div>
+        <SnippetStars id={snippet.id} client:load />
+        <span class="flex gap-2 items-center">
+          <Image
+            src={`/icons/${snippet.language}.svg`}
+            alt={`${snippet.language} logo`}
+            width={24}
+            height={24}
+          />
+          <Typography as="span" variant="body" color="neutral">
+            {snippet.language}
+          </Typography>
+        </span>
+      </div>
+    </header>
+    <Typography as="p" variant="body" color="neutral" class="mb-4">
+      {snippet.description}
+    </Typography>
+    <div class=""></div>
     <Code code={snippet.code} lang={snippet.language} class="p-4" />
   </article>
 </Layout>
