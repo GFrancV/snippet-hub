@@ -39,6 +39,5 @@ type SnippetLanguages =
   | "typescript"
   | "python"
   | "java"
-  | "csharp"
   | "html"
   | "css";
