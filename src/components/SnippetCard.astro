@@ -21,7 +21,7 @@ const { id, title, description } = Astro.props;
     <SnippetStars id={id} client:load />
   </div>
   {
-    description === null && (
+    description !== null && (
       <Typography as="p" variant="body" color="neutral">
         {description}
       </Typography>
