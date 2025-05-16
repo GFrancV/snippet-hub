@@ -1,6 +1,7 @@
 import type { ZodIssue } from "astro:schema";
 import { useState, type FormEvent } from "react";
 import CodeEditor from "./CodeEditor";
+import TagsManager from "./TagsManager";
 
 export default () => {
   const labelClasses = "block text-2xl font-semibold text-[#f1f1ef] mb-2";
@@ -40,12 +41,14 @@ export default () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
     const formData = new FormData(e.currentTarget);
     const dataToSend = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       code: formData.get("code") as string,
       language: formData.get("language") as string,
+      tags: JSON.parse(formData.get("tags") as string),
     };
 
     const response = await fetch("/api/snippets.json", {
@@ -118,6 +121,7 @@ export default () => {
             ))}
           </select>
         </div>
+        <TagsManager />
 
         <CodeEditor language={language} />
       </div>
