@@ -92,3 +92,14 @@ export const getSnippet = async (
 
   return data;
 };
+
+export const deleteSnippet = async (id: string) => {
+  const { error } = await supabase.from("snippets").delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting snippet:", error);
+    return null;
+  }
+
+  return true;
+};
