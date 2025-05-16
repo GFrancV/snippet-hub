@@ -7,33 +7,25 @@ export const saveSnippet = async ({
   description,
   code,
   language,
-}: SaveSnippetData): Promise<SaveSnippetResult> => {
-  const { error } = await supabase.from("snippets").insert({
-    clerk_user_id,
-    title,
-    description,
-    code,
-    language,
-  });
-
-  if (error) {
-    console.error("Error saving snippet:", error);
-    return {
-      success: false,
-      error: "Failed to save snippet to database.",
-      details: error,
-    };
-  }
-
-  return {
-    success: true,
-    data: {
+}: SaveSnippetData): Promise<string | null> => {
+  const { data, error } = await supabase
+    .from("snippets")
+    .insert({
+      clerk_user_id,
       title,
       description,
       code,
       language,
-    },
-  };
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    console.error("Error saving snippet:", error);
+    return null;
+  }
+
+  return data?.id || null;
 };
 
 export const getPublicSnippets = async (): Promise<
