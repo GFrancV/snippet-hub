@@ -71,7 +71,7 @@ export default () => {
 
     setErrors({});
     setIsLoading(false);
-    window.location.href = `/snippet`;
+    window.location.href = "/";
   };
 
   return (
