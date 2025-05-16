@@ -62,6 +62,19 @@ export const getMySnippets = async (
   return data;
 };
 
+export const getMyStarredSnippets = async (clerk_user_id: string) => {
+  const { data, error } = await supabase
+    .from("stars")
+    .select("*, snippet:snippets(*)")
+    .eq("clerk_user_id", clerk_user_id);
+
+  if (error) {
+    console.error("Error fetching starred snippets:", error);
+    return null;
+  }
+  return data.map((item) => item.snippet);
+};
+
 export const getSnippet = async (
   id: string
 ): Promise<Tables<"snippets"> | null> => {
