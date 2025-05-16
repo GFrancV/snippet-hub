@@ -1,0 +1,30 @@
+---
+import SnippetCard from "../../components/SnippetCard.astro";
+import Typography from "../../components/Typography.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getMyStarredSnippets } from "../../service/snippets";
+
+const { userId, redirectToSignIn } = Astro.locals.auth();
+if (!userId) {
+  return redirectToSignIn();
+}
+
+const favorites = await getMyStarredSnippets(userId);
+---
+
+<Layout>
+  <Typography as="h1" variant="h2" color="white" class="mb-4">
+    My Favorites
+  </Typography>
+  <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
+    {
+      favorites === null || favorites.length === 0 ? (
+        <p class="text-center text-gray-500">No snippets found</p>
+      ) : (
+        favorites.map(({ id, title, description }) => (
+          <SnippetCard id={id} title={title} description={description} />
+        ))
+      )
+    }
+  </div>
+</Layout>
