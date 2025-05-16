@@ -36,15 +36,15 @@ export type Database = {
     Tables: {
       snippet_tags: {
         Row: {
-          snippet_id: number;
+          snippet_id: string;
           tag_id: number;
         };
         Insert: {
-          snippet_id: number;
+          snippet_id?: string;
           tag_id: number;
         };
         Update: {
-          snippet_id?: number;
+          snippet_id?: string;
           tag_id?: number;
         };
         Relationships: [
@@ -70,7 +70,7 @@ export type Database = {
           code: string;
           created_at: string;
           description: string | null;
-          id: number;
+          id: string;
           language: string;
           title: string;
           updated_at: string;
@@ -80,7 +80,7 @@ export type Database = {
           code: string;
           created_at?: string;
           description?: string | null;
-          id?: number;
+          id?: string;
           language: string;
           title: string;
           updated_at?: string;
@@ -90,7 +90,7 @@ export type Database = {
           code?: string;
           created_at?: string;
           description?: string | null;
-          id?: number;
+          id?: string;
           language?: string;
           title?: string;
           updated_at?: string;
@@ -102,22 +102,19 @@ export type Database = {
           clerk_user_id: string;
           created_at: string;
           id: number;
-          snippet_id: number;
-          updated_at: string;
+          snippet_id: string;
         };
         Insert: {
           clerk_user_id: string;
           created_at?: string;
           id?: number;
-          snippet_id: number;
-          updated_at?: string;
+          snippet_id?: string;
         };
         Update: {
           clerk_user_id?: string;
           created_at?: string;
           id?: number;
-          snippet_id?: number;
-          updated_at?: string;
+          snippet_id?: string;
         };
         Relationships: [
           {
