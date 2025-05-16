@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import SnippetStars from "./SnippetStars.tsx";
 import Typography from "./Typography.astro";
 
@@ -6,19 +7,26 @@ interface Props {
   id: string;
   title: string;
   description: string | null;
+  language: string;
 }
 
-const { id, title, description } = Astro.props;
+const { id, title, description, language } = Astro.props;
 ---
 
 <div
   class="bg-[#1e1e1e] shadow-md rounded-sm border border-transparent transition p-5 hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
 >
-  <div class="flex justify-between items-start mb-4">
-    <Typography as="h2" variant="h3" color="white">
+  <div class="flex gap-4 items-center mb-4">
+    <Typography as="h2" variant="h4" color="white">
       {title}
     </Typography>
-    <SnippetStars id={id} client:load />
+    <Image
+      src={`/icons/${language}.svg`}
+      alt={`${language} logo`}
+      class="ml-auto"
+      width={24}
+      height={24}
+    />
   </div>
   {
     description !== null && (
@@ -27,7 +35,10 @@ const { id, title, description } = Astro.props;
       </Typography>
     )
   }
-  <a href={`/snippet/${id}`} class="text-blue-500 hover:underline">
-    View Snippet
-  </a>
+  <footer class="flex items-end justify-between mt-4">
+    <a href={`/snippet/${id}`} class="text-blue-500 hover:underline">
+      View Snippet
+    </a>
+    <SnippetStars id={id} client:load />
+  </footer>
 </div>
