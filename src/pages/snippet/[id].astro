@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Code } from "astro:components";
+import SnippetOptions from "../../components/SnippetOptions";
 import SnippetStars from "../../components/SnippetStars";
 import Typography from "../../components/Typography.astro";
 import Layout from "../../layouts/Layout.astro";
@@ -38,6 +39,7 @@ if (!id || snippet === null) {
           </Typography>
         </span>
       </div>
+      <SnippetOptions id={snippet.id} client:load />
     </header>
     <Typography as="p" variant="body" color="neutral" class="mb-4">
       {snippet.description}
