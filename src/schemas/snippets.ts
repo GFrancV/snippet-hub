@@ -18,6 +18,10 @@ export const snippetFormSchema = z.object({
     "css",
     "html",
   ]),
+  tags: z
+    .array(z.number())
+    .min(1, { message: "At least one tag is required" })
+    .max(5, { message: "You can add up to 5 tags" }),
 });
 
 export type SnippetFormData = z.infer<typeof snippetFormSchema>;
