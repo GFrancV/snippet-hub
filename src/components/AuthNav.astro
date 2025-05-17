@@ -15,10 +15,12 @@ import Button from "./Button.astro";
 </SignedOut>
 <SignedIn>
   <UserButton
-    showName
     appearance={{
       elements: {
-        userButtonOuterIdentifier: "!text-[#f1f1ef]",
+        userButtonAvatarBox: {
+          width: "2.5rem",
+          height: "2.5rem",
+        },
       },
     }}
   >
