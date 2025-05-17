@@ -1,5 +1,15 @@
-<button
-  class="flex gap-1 border border-transparent back rounded-full px-4 py-2 transition text-white bg-[#1e1e1e] hover:bg-fuchsia-300/30 hover:border-fuchsia-200 cursor-pointer"
+---
+interface Props {
+  as?: "a" | "button" | "div";
+  href?: string;
+}
+
+const { as: Element = "button", href = "#" } = Astro.props;
+---
+
+<Element
+  href={Element === "a" ? href : null}
+  class="flex items-center gap-1 border border-fuchsia-200 back rounded-full px-4 py-1.5 transition text-white bg-[#1e1e1e] hover:bg-fuchsia-300/30 hover:border-fuchsia-200 cursor-pointer"
 >
   <slot />
-</button>
+</Element>
