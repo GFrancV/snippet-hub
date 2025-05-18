@@ -1,5 +1,6 @@
 ---
 import Button from "@components/Button.astro";
+import TagLabel from "@components/TagLabel.astro";
 import CodeBracketIcon from "@public/icons/code-bracket.svg";
 import PlusIcon from "@public/icons/plus.svg";
 import AuthNav from "../components/AuthNav.astro";
@@ -26,36 +27,82 @@ const { title = "SnippetHub" } = Astro.props;
   <body
     class="bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] flex flex-col min-h-screen"
   >
-    <header>
-      <nav class="fixed w-full z-20 top-0 start-0 backdrop-blur-lg">
-        <div
-          class="max-w-6xl flex flex-wrap items-center justify-start md:gap-8 gap-4 mx-auto px-6 py-4"
-        >
-          <a href="/" class="flex items-center space-x-3">
-            <CodeBracketIcon stroke="#f1f1ef" />
-            <Typography
-              as="span"
-              variant="h3"
-              color="white"
-              class="self-center whitespace-nowrap"
-            >
-              SnippetHub
-            </Typography>
-          </a>
+    <header class="fixed w-full z-20 top-0 start-0 backdrop-blur-lg">
+      <div
+        class="flex flex-wrap items-center justify-start md:gap-8 gap-4 mx-auto px-4 py-4"
+      >
+        <a href="/" class="flex items-center space-x-3">
+          <CodeBracketIcon stroke="#f1f1ef" />
+          <Typography
+            as="span"
+            variant="h3"
+            color="white"
+            class="self-center whitespace-nowrap"
+          >
+            SnippetHub
+          </Typography>
+        </a>
+        <nav>
           <NavMenu />
-          <div class="flex items-center md:order-2 gap-4 ml-auto">
-            <Button as="a" href="/snippet/add">
-              <PlusIcon width={20} height={20} />
-              New Snippet
-            </Button>
-            <AuthNav />
-          </div>
+        </nav>
+        <div class="flex items-center md:order-2 gap-4 ml-auto">
+          <Button as="a" href="/snippet/add">
+            <PlusIcon width={20} height={20} />
+            New Snippet
+          </Button>
+          <AuthNav />
         </div>
-      </nav>
+      </div>
     </header>
-    <main class="grow w-full max-w-6xl mx-auto pt-36 pb-12 px-6">
-      <slot />
-    </main>
+    <div class="grow w-full grid grid-cols-4 pt-18 pb-12">
+      <aside class="cols-span-1 h-screen py-8 px-4" aria-label="Sidebar">
+        <section>
+          <Typography as="h4" variant="h4" color="white" class="mb-4">
+            Languages
+          </Typography>
+          <ul class="space-y-2 font-medium">
+            <li class="flex items-center gap-2">
+              <button
+                class="peer h-4 w-4 shrink-0 rounded-sm border border-fuchsia-200/75 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                id="lang-javascript"></button>
+              <Typography
+                as="label"
+                variant="small"
+                color="neutral"
+                for="lang-javascript"
+              >
+                javascript
+              </Typography>
+              <Typography
+                as="span"
+                variant="extra-small"
+                color="neutral"
+                class="ml-auto"
+              >
+                245
+              </Typography>
+            </li>
+          </ul>
+        </section>
+        <hr class="h-px bg-gray-200/15 border-0 my-6" />
+        <section>
+          <Typography as="h4" variant="h4" color="white" class="mb-4">
+            Tags
+          </Typography>
+          <div class="flex flex-wrap gap-2">
+            <TagLabel tag="javascript" />
+            <TagLabel tag="astro" />
+            <TagLabel tag="ts" />
+            <TagLabel tag="mongo" />
+            <TagLabel tag="wordpress" />
+          </div>
+        </section>
+      </aside>
+
+      <main class="col-span-3 p-8">
+        <slot />
+      </main>
+    </div>
     <footer></footer>
   </body>
 </html>
