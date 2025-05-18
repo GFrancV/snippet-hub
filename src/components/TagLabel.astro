@@ -1,0 +1,13 @@
+---
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<div
+  class="text-[#f1f1ef] inline-flex items-center rounded-full border border-fuchsia-200/75 px-2.5 py-0.5 text-xs font-semibold transition-colors cursor-pointer hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
+>
+  # {tag}
+</div>
