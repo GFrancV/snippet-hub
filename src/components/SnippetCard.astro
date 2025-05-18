@@ -1,6 +1,9 @@
 ---
+import ShareIcon from "@public/icons/share.svg";
+import { Code } from "astro/components";
 import { Image } from "astro:assets";
 import SnippetStars from "./SnippetStars.tsx";
+import TagLabel from "./TagLabel.astro";
 import Typography from "./Typography.astro";
 
 interface Props {
@@ -11,32 +14,110 @@ interface Props {
 }
 
 const { id, title, description, language } = Astro.props;
+const excerpt =
+  description && description?.length > 100
+    ? description.slice(0, 100) + "..."
+    : description;
 ---
 
 <div
-  class="bg-[#1e1e1e] shadow-md rounded-sm border border-transparent transition p-5 hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
+  class="group bg-[#1e1e1e] shadow-md rounded-sm border border-transparent transition duration-400 p-4 hover:bg-fuchsia-300/15 hover:border-fuchsia-200"
 >
-  <div class="flex gap-4 items-center mb-4">
-    <Typography as="h2" variant="h4" color="white">
-      {title}
-    </Typography>
-    <Image
-      src={`/icons/${language}.svg`}
-      alt={`${language} logo`}
-      class="ml-auto"
-      width={24}
-      height={24}
+  <header class="flex flex-row items-start justify-between mb-4">
+    <div class="space-y-1">
+      <Image
+        src={`/icons/${language}.svg`}
+        alt={`${language} logo`}
+        width={18}
+        height={18}
+      />
+      <Typography as="h2" variant="h4" color="white">
+        {title}
+      </Typography>
+    </div>
+  </header>
+  <div class="relative">
+    <Code
+      code={`<?php
+  add_filter(
+    'upload_mimes',
+    function ( $upload_mimes ) {
+      // By default, only administrator users are allowed to add SVGs.
+      // To enable more user types edit or comment the lines below but beware of
+      // the security risks if you allow any user to upload SVG files.
+      if ( ! current_user_can( 'administrator' ) ) {
+        return $upload_mimes;
+      }
+      $upload_mimes['svg']  = 'image/svg+xml';
+      $upload_mimes['svgz'] = 'image/svg+xml';
+      return $upload_mimes;
+    }
+  );
+  /**
+   * Add SVG files mime check.
+   *
+   * @param array        $wp_check_filetype_and_ext Values for the extension, mime type, and corrected filename.
+   * @param string       $file Full path to the file.
+   * @param string       $filename The name of the file (may differ from $file due to $file being in a tmp directory).
+   * @param string[]     $mimes Array of mime types keyed by their file extension regex.
+   * @param string|false $real_mime The actual mime type or false if the type cannot be determined.
+   */
+  add_filter(
+    'wp_check_filetype_and_ext',
+    function ( $wp_check_filetype_and_ext, $file, $filename, $mimes, $real_mime ) {
+      if ( ! $wp_check_filetype_and_ext['type'] ) {
+        $check_filetype  = wp_check_filetype( $filename, $mimes );
+        $ext             = $check_filetype['ext'];
+        $type            = $check_filetype['type'];
+        $proper_filename = $filename;
+        if ( $type && 0 === strpos( $type, 'image/' ) && 'svg' !== $ext ) {
+          $ext  = false;
+          $type = false;
+        }
+        $wp_check_filetype_and_ext = compact( 'ext', 'type', 'proper_filename' );
+      }
+      return $wp_check_filetype_and_ext;
+    },
+    10,
+    5
+  );
+      `}
+      lang="php"
+      class="p-3 h-46 rounded mask-b-from-55% mask-b-to-100% mb-6 text-xs leading-4 !overflow-hidden transition-all duration-300"
     />
+    <button
+      id="share-button"
+      class="p-1 rounded-full bg-[#1e1e1e] hover:bg-[#1e1e1e]/80 text-white absolute top-2 right-2 opacity-0 cursor-pointer hover:opacity-100 transition-opacity duration-300 group-hover:opacity-100"
+    >
+      <ShareIcon width={20} height={20} />
+    </button>
+    <script>
+      const shareButton = document.getElementById("share-button");
+      if (shareButton) {
+        shareButton.addEventListener("click", () => {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Snippet URL copied to clipboard!");
+        });
+      }
+    </script>
   </div>
+
   {
     description !== null && (
-      <Typography as="p" variant="body" color="neutral">
-        {description}
+      <Typography as="p" variant="small" color="neutral">
+        {excerpt}
       </Typography>
     )
   }
-  <footer class="flex items-end justify-between mt-4">
-    <a href={`/snippet/${id}`} class="text-blue-500 hover:underline">
+
+  <div class="flex flex-wrap gap-1 mt-4">
+    <TagLabel tag="test" />
+    <TagLabel tag="test" />
+    <TagLabel tag="test" />
+    <TagLabel tag="test" />
+  </div>
+  <footer class="flex items-end justify-between mt-6">
+    <a href={`/snippet/${id}`} class="text-fuchsia-200 hover:underline">
       View Snippet
     </a>
     <SnippetStars id={id} client:load />
