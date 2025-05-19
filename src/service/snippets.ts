@@ -33,17 +33,30 @@ export const getPublicSnippets = async (
 ): Promise<SnippetApiResponse[] | null> => {
   let query = supabase
     .from("snippets")
-    .select("id, title, description, code, language");
+    .select(
+      "id, title, description, code, language,tags:snippet_tags(tag_id, tags(name))"
+    );
   if (search) {
     query = query.ilike("title", `%${search}%`);
   }
 
   const { data, error } = await query;
   if (error) {
+    console.error("Error fetching snippets with tags:", error);
     return null;
   }
 
-  return data;
+  const snippetsWithTags =
+    data?.map((snippet) => ({
+      id: snippet.id,
+      title: snippet.title,
+      description: snippet.description,
+      code: snippet.code,
+      language: snippet.language,
+      tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
+    })) ?? null;
+
+  return snippetsWithTags;
 };
 
 export const getMySnippets = async (

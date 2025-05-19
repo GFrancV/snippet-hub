@@ -48,4 +48,7 @@ interface SnippetApiResponse {
   description: string | null;
   code: string;
   language: string;
+  tags: {
+    name: string;
+  }[];
 }
