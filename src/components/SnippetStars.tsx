@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 type StarButtonProps = {
-  id: number;
+  id: string;
 };
 
 const SnippetStars: React.FC<StarButtonProps> = ({ id }) => {
@@ -54,31 +54,37 @@ const SnippetStars: React.FC<StarButtonProps> = ({ id }) => {
   }, [id]);
 
   return (
-    <button
-      onClick={toggleStar}
-      className="flex items-center gap-2 px-4 py-2 border border-black/10 rounded cursor-pointer"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`size-5 ${
+    <div className="flex items-center gap-2">
+      <button
+        onClick={toggleStar}
+        className={`flex items-center gap-2 p-1 border border-white/10 rounded cursor-pointer transition duration-300 ${
           isStarred
-            ? "fill-fuchsia-300/30 stroke-fuchsia-200"
-            : "stroke-neutral-300"
+            ? "bg-fuchsia-300/30 hover:bg-fuchsia-300/40"
+            : "hover:bg-neutral-800"
         }`}
       >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-      </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`size-5 ${
+            isStarred
+              ? "fill-fuchsia-300 stroke-fuchsia-200"
+              : "stroke-neutral-300"
+          }`}
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+        </svg>
+      </button>
       <span className="text-sm text-neutral-300">{stars ?? 0}</span>
-    </button>
+    </div>
   );
 };
 

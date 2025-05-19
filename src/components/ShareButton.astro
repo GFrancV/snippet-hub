@@ -1,0 +1,31 @@
+---
+import ShareIcon from "@public/icons/share.svg";
+
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<button
+  class="p-1 rounded-full bg-[#1e1e1e] hover:bg-[#1e1e1e]/80 text-white absolute top-2 right-2 opacity-0 cursor-pointer hover:opacity-100 transition-opacity duration-300 group-hover:opacity-100"
+  data-share-button
+  data-url={url}
+>
+  <ShareIcon width={20} height={20} />
+</button>
+<script>
+  const shareButtons = document.querySelectorAll("[data-share-button]");
+  shareButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const url = button.getAttribute("data-url");
+      if (!url) {
+        return;
+      }
+
+      navigator.clipboard.writeText(url);
+      alert("Snippet URL copied to clipboard!");
+    });
+  });
+</script>
