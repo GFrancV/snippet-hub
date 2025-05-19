@@ -28,11 +28,17 @@ export const saveSnippet = async ({
   return data?.id || null;
 };
 
-export const getPublicSnippets = async (): Promise<
-  Tables<"snippets">[] | null
-> => {
-  const { data, error } = await supabase.from("snippets").select("*");
+export const getPublicSnippets = async (
+  search?: string
+): Promise<SnippetApiResponse[] | null> => {
+  let query = supabase
+    .from("snippets")
+    .select("id, title, description, code, language");
+  if (search) {
+    query = query.ilike("title", `%${search}%`);
+  }
 
+  const { data, error } = await query;
   if (error) {
     return null;
   }

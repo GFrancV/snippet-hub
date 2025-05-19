@@ -41,3 +41,11 @@ type SnippetLanguages =
   | "java"
   | "html"
   | "css";
+
+interface SnippetApiResponse {
+  id: string;
+  title: string;
+  description: string | null;
+  code: string;
+  language: string;
+}

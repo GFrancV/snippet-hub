@@ -1,8 +1,29 @@
 import type { APIRoute } from "astro";
 import { z } from "astro:content";
 import { snippetFormSchema } from "../../schemas/snippets";
-import { saveSnippet } from "../../service/snippets";
+import { getPublicSnippets, saveSnippet } from "../../service/snippets";
 import { associateTagsWithSnippet } from "../../service/tags";
+
+export const GET: APIRoute = async ({ request }) => {
+  const url = new URL(request.url);
+  const query = url.searchParams.get("query") ?? undefined;
+
+  const snippets = await getPublicSnippets(query);
+  if (!snippets) {
+    return new Response(
+      JSON.stringify({ message: "Error fetching snippets" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+
+  return new Response(JSON.stringify(snippets), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+};
 
 export const POST: APIRoute = async ({ locals, request }) => {
   try {
