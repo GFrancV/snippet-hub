@@ -116,6 +116,46 @@ export const getSnippet = async (
   };
 };
 
+export const getRelatedSnippets = async (
+  id: string
+): Promise<SnippetApiResponse[] | null> => {
+  const { data: snippetData, error: snippetError } = await supabase
+    .from("snippets")
+    .select("language")
+    .eq("id", id)
+    .single();
+  if (snippetError) {
+    console.error("Error fetching snippet data:", snippetError);
+    return null;
+  }
+
+  const { data: relatedSnippetsData, error: relatedSnippetsError } =
+    await supabase
+      .from("snippets")
+      .select(
+        "id, title, description, code, language,tags:snippet_tags(tag_id, tags(name)), created_at"
+      )
+      .eq("language", snippetData.language)
+      .neq("id", id)
+      .limit(3);
+  if (relatedSnippetsError) {
+    console.error("Error fetching related snippets:", relatedSnippetsError);
+    return null;
+  }
+
+  const relatedSnippets =
+    relatedSnippetsData?.map((snippet) => ({
+      id: snippet.id,
+      title: snippet.title,
+      description: snippet.description,
+      code: snippet.code,
+      language: snippet.language,
+      tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
+      created_at: snippet.created_at,
+    })) ?? null;
+  return relatedSnippets;
+};
+
 export const deleteSnippet = async (id: string) => {
   const { error } = await supabase.from("snippets").delete().eq("id", id);
 
