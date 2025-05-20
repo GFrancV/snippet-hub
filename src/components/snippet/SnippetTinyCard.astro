@@ -1,0 +1,62 @@
+---
+import Typography from "@components/Typography.astro";
+import { Image } from "astro:assets";
+import { getSnippetStars } from "src/service/stars";
+
+interface Props {
+  snippet: SnippetApiResponse;
+}
+
+const { snippet } = Astro.props;
+
+const stars = await getSnippetStars(snippet.id);
+---
+
+<div
+  class="border border-white/10 rounded-md p-3 hover:bg-fuchsia-300/15 transition-colors"
+>
+  <div class="flex items-center gap-2 mb-1">
+    <Image
+      src={`/icons/${snippet.language}.svg`}
+      alt={`${snippet.language} logo`}
+      width={12}
+      height={12}
+    />
+    <Typography as="span" variant="extra-small" color="neutral">
+      {snippet.language}
+    </Typography>
+  </div>
+  <Typography as="h3" variant="h4" color="white">
+    {snippet.title}
+  </Typography>
+
+  <div class="flex items-center justify-between text-xs text-muted-foreground">
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-neutral-300 h-3 w-3"
+        >
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+          >
+          </polygon>
+        </svg>
+        <Typography as="span" variant="extra-small" color="neutral">
+          {stars ?? 0}
+        </Typography>
+      </div>
+    </div>
+    <a href={`/snippet/${snippet.id}`} class="text-fuchsia-200 hover:underline">
+      View
+    </a>
+  </div>
+</div>

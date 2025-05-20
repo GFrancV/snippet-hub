@@ -8,9 +8,10 @@ import { Code } from "astro:components";
 import SnippetOptions from "../../components/SnippetOptions";
 import SnippetStars from "../../components/SnippetStars";
 import Typography from "../../components/Typography.astro";
-import { getSnippet } from "../../service/snippets";
+import { getRelatedSnippets, getSnippet } from "../../service/snippets";
 import ShareButton from "@components/ShareButton.astro";
 import Snippet from "src/layouts/Snippet.astro";
+import SnippetTinyCard from "@components/snippet/SnippetTinyCard.astro";
 
 const baseUrl = Astro.site;
 const { id } = Astro.params;
@@ -24,11 +25,13 @@ if (!id || snippet === null) {
   return Astro.redirect("/404");
 }
 
+const relatedSnippets = await getRelatedSnippets(id);
+
 const { userId } = Astro.locals.auth();
 const showSnippetOptions = userId && snippet.clerk_user_id === userId;
 ---
 
-<Snippet title={snippet.title}>
+<Snippet id={snippet.id} title={snippet.title}>
   <article>
     <div class="grid grid-cols-4 gap-4 mb-6">
       <div class="col-span-3">
@@ -70,7 +73,7 @@ const showSnippetOptions = userId && snippet.clerk_user_id === userId;
           )
         }
       </div>
-      <div class="col-span-1 flex items-center gap-3">
+      <div class="col-span-1 flex items-center justify-end gap-3">
         <SnippetStars id={snippet.id} client:load />
         <ShareButton
           url={`${baseUrl?.href}snippet/${snippet.id}`}
@@ -131,6 +134,19 @@ const showSnippetOptions = userId && snippet.clerk_user_id === userId;
       <Typography as="h4" variant="h4" color="white" class="mb-4">
         Related Snippets
       </Typography>
+      <div class="space-y-2">
+        {
+          relatedSnippets !== null && relatedSnippets.length > 0 ? (
+            relatedSnippets.map((snippet) => (
+              <SnippetTinyCard snippet={snippet} />
+            ))
+          ) : (
+            <Typography as="p" variant="small" color="neutral">
+              No related snippets available
+            </Typography>
+          )
+        }
+      </div>
     </section>
   </Fragment>
 </Snippet>
