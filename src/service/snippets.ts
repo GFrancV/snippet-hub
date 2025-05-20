@@ -1,5 +1,29 @@
-import type { Tables } from "../lib/database.types";
 import { supabase } from "../lib/supabase";
+
+interface SnippetWithTags {
+  id: string;
+  title: string;
+  description: string | null;
+  code: string;
+  language: string;
+  tags: {
+    tag_id: number;
+    tags: {
+      name: string;
+    };
+  }[];
+  created_at: string;
+}
+
+const formatSnippet = (snippet: SnippetWithTags) => ({
+  id: snippet.id,
+  title: snippet.title,
+  description: snippet.description,
+  code: snippet.code,
+  language: snippet.language,
+  tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
+  created_at: snippet.created_at,
+});
 
 export const saveSnippet = async ({
   clerk_user_id,
@@ -46,45 +70,42 @@ export const getPublicSnippets = async (
     return null;
   }
 
-  const snippetsWithTags =
-    data?.map((snippet) => ({
-      id: snippet.id,
-      title: snippet.title,
-      description: snippet.description,
-      code: snippet.code,
-      language: snippet.language,
-      tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
-      created_at: snippet.created_at,
-    })) ?? null;
-
-  return snippetsWithTags;
+  return data?.map(formatSnippet) ?? null;
 };
 
 export const getMySnippets = async (
   clerk_user_id: string
-): Promise<Tables<"snippets">[] | null> => {
+): Promise<SnippetApiResponse[] | null> => {
   const { data, error } = await supabase
     .from("snippets")
-    .select("*")
+    .select(
+      "id, title, description, code, language,tags:snippet_tags(tag_id, tags(name)), created_at"
+    )
     .eq("clerk_user_id", clerk_user_id);
   if (error) {
     console.error("Error fetching snippets:", error);
     return null;
   }
-  return data;
+
+  return data?.map(formatSnippet) ?? null;
 };
 
-export const getMyStarredSnippets = async (clerk_user_id: string) => {
+export const getMyStarredSnippets = async (
+  clerk_user_id: string
+): Promise<SnippetApiResponse[] | null> => {
   const { data, error } = await supabase
     .from("stars")
-    .select("*, snippet:snippets(*)")
+    .select(
+      "*, snippet:snippets(id, title, description, code, language,tags:snippet_tags(tag_id, tags(name)), created_at)"
+    )
     .eq("clerk_user_id", clerk_user_id);
 
   if (error) {
     console.error("Error fetching starred snippets:", error);
     return null;
   }
-  return data.map((item) => item.snippet);
+
+  return data.map((item) => formatSnippet(item.snippet));
 };
 
 export const getSnippet = async (
@@ -143,17 +164,7 @@ export const getRelatedSnippets = async (
     return null;
   }
 
-  const relatedSnippets =
-    relatedSnippetsData?.map((snippet) => ({
-      id: snippet.id,
-      title: snippet.title,
-      description: snippet.description,
-      code: snippet.code,
-      language: snippet.language,
-      tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
-      created_at: snippet.created_at,
-    })) ?? null;
-  return relatedSnippets;
+  return relatedSnippetsData?.map(formatSnippet) ?? null;
 };
 
 export const deleteSnippet = async (id: string) => {
