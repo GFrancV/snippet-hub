@@ -1,8 +1,16 @@
 ---
+import Typography from "@components/Typography.astro";
 import SnippetForm from "../../components/SnippetForm.tsx";
 import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout>
-  <SnippetForm client:only />
+  <header class="mb-4">
+    <Typography as="h1" variant="h2" color="white">
+      Create new snippet
+    </Typography>
+  </header>
+  <div class="p-6 border border-white/10 rounded bg-black/15">
+    <SnippetForm client:only />
+  </div>
 </Layout>
