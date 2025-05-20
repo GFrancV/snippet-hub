@@ -1,6 +1,8 @@
 ---
 import Button from "@components/Button.astro";
+import ChevronRightIcon from "@public/icons/chevron-right.svg";
 import CodeBracketIcon from "@public/icons/code-bracket.svg";
+import HomeIcon from "@public/icons/home.svg";
 import PlusIcon from "@public/icons/plus.svg";
 import AuthNav from "../components/AuthNav.astro";
 import NavMenu from "../components/NavMenu.astro";
@@ -8,10 +10,11 @@ import Typography from "../components/Typography.astro";
 import "../styles/global.css";
 
 interface Props {
+  id: string;
   title?: string;
 }
 
-const { title = "SnippetHub" } = Astro.props;
+const { title = "SnippetHub", id } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,7 +24,7 @@ const { title = "SnippetHub" } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{title ? `${title} - SnippetHub` : "SnippetHub"}</title>
   </head>
   <body
     class="bg-[#121212] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] flex flex-col min-h-screen"
@@ -53,13 +56,48 @@ const { title = "SnippetHub" } = Astro.props;
         </div>
       </div>
     </header>
-    <div class="grow w-full grid grid-cols-4 pt-18 pb-12">
-      <main class="col-span-3 p-8">
-        <slot />
-      </main>
-      <aside class="cols-span-1 h-screen py-8 px-4" aria-label="Sidebar">
-        <slot name="aside" />
-      </aside>
+    <div class="grow w-full max-w-[1800px] mx-auto pt-22 pb-12">
+      <nav aria-label="breadcrumb" class="mb-6">
+        <ol
+          class="flex flex-wrap items-center gap-1.5 break-words text-body text-neutral-300"
+        >
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground" href="/">
+              <HomeIcon width={16} height={16} />
+            </a>
+          </li>
+          <li role="presentation" aria-hidden="true" class="[&>svg]:size-3.5">
+            <ChevronRightIcon width={16} height={16} />
+          </li>
+          <li class="inline-flex items-center gap-1.5">
+            <a class="transition-colors hover:text-foreground" href="/">
+              Explore
+            </a>
+          </li>
+          <li role="presentation" aria-hidden="true" class="[&>svg]:size-3.5">
+            <ChevronRightIcon width={16} height={16} />
+          </li>
+          <li class="inline-flex items-center gap-1.5" aria-current="page">
+            <a
+              class="transition-colors hover:text-foreground"
+              href={`/snippet/${id}`}
+            >
+              {title}
+            </a>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="grid grid-cols-4">
+        <main class="col-span-3">
+          <div class="border border-white/10 rounded bg-black/15 p-8">
+            <slot />
+          </div>
+        </main>
+        <aside class="cols-span-1 h-screen px-4" aria-label="Sidebar">
+          <slot name="aside" />
+        </aside>
+      </div>
     </div>
     <footer></footer>
   </body>
