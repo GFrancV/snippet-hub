@@ -80,6 +80,19 @@ const SnippetOptions = ({ id }: Props) => {
           tabIndex={-1}
         >
           <li
+            className="py-1 overflow-hidden transition duration-300 hover:bg-white/15"
+            role="none"
+          >
+            <a
+              href={`/snippet/${id}/edit`}
+              className="flex px-4 py-2 text-sm text-[#f1f1ef] w-full cursor-pointer"
+              role="menuitem"
+              tabIndex={-1}
+            >
+              Edit
+            </a>
+          </li>
+          <li
             className="py-1 overflow-hidden transition duration-300 hover:bg-red-700/20"
             role="none"
           >
