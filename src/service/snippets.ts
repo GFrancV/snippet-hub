@@ -34,7 +34,7 @@ export const getPublicSnippets = async (
   let query = supabase
     .from("snippets")
     .select(
-      "id, title, description, code, language,tags:snippet_tags(tag_id, tags(name))"
+      "id, title, description, code, language,tags:snippet_tags(tag_id, tags(name)), created_at"
     );
   if (search) {
     query = query.ilike("title", `%${search}%`);
@@ -54,6 +54,7 @@ export const getPublicSnippets = async (
       code: snippet.code,
       language: snippet.language,
       tags: snippet.tags.map((tag) => ({ name: tag.tags.name })),
+      created_at: snippet.created_at,
     })) ?? null;
 
   return snippetsWithTags;
@@ -88,10 +89,12 @@ export const getMyStarredSnippets = async (clerk_user_id: string) => {
 
 export const getSnippet = async (
   id: string
-): Promise<Tables<"snippets"> | null> => {
+): Promise<SnippetApiResponseWithUser | null> => {
   const { data, error } = await supabase
     .from("snippets")
-    .select("*")
+    .select(
+      "id, clerk_user_id, title, description, code, language,tags:snippet_tags(tag_id, tags(name)), created_at"
+    )
     .eq("id", id)
     .single();
 
@@ -101,7 +104,16 @@ export const getSnippet = async (
     return null;
   }
 
-  return data;
+  return {
+    id: data.id,
+    clerk_user_id: data.clerk_user_id,
+    title: data.title,
+    description: data.description,
+    code: data.code,
+    language: data.language,
+    tags: data.tags.map((tag) => ({ name: tag.tags.name })),
+    created_at: data.created_at,
+  };
 };
 
 export const deleteSnippet = async (id: string) => {

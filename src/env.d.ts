@@ -51,4 +51,9 @@ interface SnippetApiResponse {
   tags: {
     name: string;
   }[];
+  created_at: string;
+}
+
+interface SnippetApiResponseWithUser extends SnippetApiResponse {
+  clerk_user_id: string;
 }
