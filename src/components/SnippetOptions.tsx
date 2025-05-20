@@ -79,7 +79,7 @@ const SnippetOptions = ({ id }: Props) => {
           aria-labelledby="menu-button"
           tabIndex={-1}
         >
-          <li
+          {/*     <li
             className="py-1 overflow-hidden transition duration-300 hover:bg-white/15"
             role="none"
           >
@@ -91,7 +91,7 @@ const SnippetOptions = ({ id }: Props) => {
             >
               Edit
             </a>
-          </li>
+          </li> */}
           <li
             className="py-1 overflow-hidden transition duration-300 hover:bg-red-700/20"
             role="none"
