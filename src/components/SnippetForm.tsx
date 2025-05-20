@@ -80,14 +80,14 @@ export default () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
-        <label className={labelClasses}>Title</label>
+        <label className={labelClasses}>Snippet Title</label>
         <input
           type="text"
           className={`${inputClasses} ${
             errors.title ? "border border-red-500" : "border-0"
           }`}
           name="title"
-          placeholder="Enter the title of the snippet"
+          placeholder="Ex: Animated CSS Button"
           aria-label="Snippet title"
           required
         />
@@ -107,10 +107,17 @@ export default () => {
       </div>
       <div className="mb-4">
         <div className="flex justify-between mb-4">
-          <label className={labelClasses}> Snippet</label>
+          <div>
+            <label className={labelClasses}> Code editor</label>
+            <p className="text-body text-neutral-300 text-sm">
+              Type or paste your code. The editor will automatically highlight
+              the syntax.
+            </p>
+          </div>
+
           <select
             name="language"
-            className="py-2 px-6 bg-[#1e1e1e] rounded-sm border-0 text-[#f1f1ef] focus:ring-3 focus:ring-fuchsia-200 shadow-lg"
+            className="h-fit py-2 px-6 bg-[#1e1e1e] rounded-sm border-0 text-[#f1f1ef] focus:ring-3 focus:ring-fuchsia-200 shadow-lg"
             onChange={(e) => setLanguage(e.target.value as SnippetLanguages)}
             aria-label="Language"
           >
@@ -121,9 +128,9 @@ export default () => {
             ))}
           </select>
         </div>
-        <TagsManager />
-
         <CodeEditor language={language} />
+
+        <TagsManager />
       </div>
 
       <button
