@@ -1,48 +1,81 @@
-# Astro Starter Kit: Basics
+# 🚀 SnippetHub
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+![SnippetHub Logo](https://i.imgur.com/your-logo-or-a-nice-screenshot.png)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## 💡 Project Description
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**SnippetHub** is a modern and minimalist web platform designed to centralize and facilitate the **management, discovery, and sharing of code snippets**. In a world where developers constantly seek quick solutions and references, SnippetHub positions itself as the personal and collaborative hub where you can organize your own code knowledge and explore the expertise of others.
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+The platform allows users to **create, edit, and view snippets** with **syntax highlighting** for various programming languages. Each snippet can be categorized with **tags** for easy searching and filtering.
 
-## 🚀 Project Structure
+## ✨ Key Features
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Snippet Creation:** Publish your own valuable code fragments with descriptive titles, clear explanations, and associated programming languages. Existing snippets can be edited at any time.
+- **Syntax Highlighting:** Clear and readable code visualization with automatic highlighting based on the selected language, improving comprehension.
+- **Tag Management:** Associate multiple tags with each snippet for flexible organization and efficient search. Users can create new tags instantly.
+- **Search and Filtering:** Quickly find specific snippets using the search bar and filters by language or tags. (Assuming you implemented search, if not, adjust this).
+- **User Authentication:** Secure registration and login, allowing users to manage their own snippets.
+- **Intuitive User Interface:** Clean, modern design with a **dark theme** (`Dracula` or `Andromeda` as the code theme base) that prioritizes user experience and readability.
+- **Dedicated Snippet Pages:** Each snippet has its own page, displaying the code, description, metadata, and potentially related snippets.
+- **"My Snippets" Page:** A personal area where users can view and manage all the snippets they have created. (If you implemented this functionality).
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## 🛠️ Technologies Used
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+This project has been built using a modern and robust tech stack to ensure performance, scalability, and an excellent development experience:
 
-## 🧞 Commands
+- **Frontend:**
+  - **Astro:** For optimized web performance and an islands architecture, enabling minimal JavaScript delivery.
+  - **React:** Used for interactive and dynamic components within Astro.
+  - **TailwindCSS**: For rapid and responsive style development.
+- **Authentication:**
+  - **Clerk:** A robust and easy-to-integrate authentication solution for user management.
+- **Database:**
+  - **Supabase:** An open-source database with real-time, authentication, and storage functionalities, used as the backend.
 
-All commands are run from the root of the project, from a terminal:
+## 🚀 Getting Started (Local Setup)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+Follow these steps to get a local copy of SnippetHub up and running on your machine.
 
-## 👀 Want to learn more?
+### Prerequisites
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/en/download/) (version 18 or higher recommended)
+- [npm](https://www.npmjs.com/get-npm) or [pnpm](https://pnpm.io/installation)
+
+### Installation
+
+1.  **Clone the repository:**
+
+    ```bash
+    git clone [https://github.com/GFrancV/snippet-hub.git](https://github.com/GFrancV/snippet-hub.git)
+    cd snippet-hub
+    ```
+
+2.  **Install dependencies:**
+
+    ```bash
+    pnpm install
+    ```
+
+3.  **Configure your Environment Variables:**
+    Create an `.env` file in the root of your project and add your Supabase and Clerk credentials. You can obtain these from your Supabase and Clerk dashboards.
+
+    ```dotenv
+    # Supabase
+    PUBLIC_SUPABASE_URL="your_supabase_url"
+    PUBLIC_SUPABASE_ANON_KEY="your_supabase_anon_key"
+    SUPABASE_SERVICE_ROLE_KEY="your_supabase_service_role_key" # Use with caution in the backend
+
+    # Clerk
+    CLERK_SECRET_KEY="sk_your_clerk_secret_key"
+    PUBLIC_CLERK_PUBLISHABLE_KEY="pk_your_clerk_publishable_key"
+    ```
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+    The project will be available at `http://localhost:4321` (or the port Astro assigns).
