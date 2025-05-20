@@ -1,6 +1,7 @@
 // @ts-check
 import node from "@astrojs/node";
 import clerk from "@clerk/astro";
+import { dark } from "@clerk/themes";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
@@ -12,7 +13,14 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [clerk(), react()],
+  integrations: [
+    clerk({
+      appearance: {
+        baseTheme: dark,
+      },
+    }),
+    react(),
+  ],
   adapter: node({ mode: "standalone" }),
   output: "server",
 });
