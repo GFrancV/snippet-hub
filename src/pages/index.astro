@@ -1,5 +1,6 @@
 ---
 import SearchBar from "@components/SearchBar.tsx";
+import Typography from "@components/Typography.astro";
 import SnippetCard from "../components/SnippetCard.astro";
 import Layout from "../layouts/Layout.astro";
 import { getPublicSnippets } from "../service/snippets";
@@ -11,6 +12,11 @@ if (!snippets) {
 ---
 
 <Layout>
+  <header class="mb-6">
+    <Typography as="h1" variant="big" color="white" class="text-center">
+      SnippetHub
+    </Typography>
+  </header>
   <div class="mb-6">
     <SearchBar client:load />
   </div>
