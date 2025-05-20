@@ -41,12 +41,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response("Error checking if tag exists", { status: 500 });
     }
 
-    const success = await createTag(normalizedTag);
-    if (!success) {
+    const tag = await createTag(normalizedTag);
+    if (!tag) {
       return new Response("Failed to create tag", { status: 500 });
     }
 
-    return new Response(null, { status: 201 });
+    return new Response(JSON.stringify(tag), { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(
