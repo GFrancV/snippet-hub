@@ -1,6 +1,5 @@
 ---
 import Button from "@components/Button.astro";
-import TagLabel from "@components/TagLabel.astro";
 import CodeBracketIcon from "@public/icons/code-bracket.svg";
 import PlusIcon from "@public/icons/plus.svg";
 import AuthNav from "../components/AuthNav.astro";
@@ -54,8 +53,8 @@ const { title = "SnippetHub" } = Astro.props;
         </div>
       </div>
     </header>
-    <div class="grow w-full grid grid-cols-4 pt-18 pb-12">
-      <aside class="cols-span-1 h-screen py-8 px-4" aria-label="Sidebar">
+    <!-- <div class="grow w-full grid grid-cols-4 pt-18 pb-12"> -->
+    <!--  <aside class="cols-span-1 h-screen py-8 px-4" aria-label="Sidebar">
         <section>
           <Typography as="h4" variant="h4" color="white" class="mb-4">
             Languages
@@ -98,11 +97,11 @@ const { title = "SnippetHub" } = Astro.props;
           </div>
         </section>
       </aside>
-
-      <main class="col-span-3 p-8">
-        <slot />
-      </main>
-    </div>
+ -->
+    <main class="grow w-full max-w-screen-lg mx-auto pt-36 pb-12 px-6">
+      <slot />
+    </main>
+    <!-- </div> -->
     <footer></footer>
   </body>
 </html>
