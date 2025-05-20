@@ -3,17 +3,31 @@ import ShareIcon from "@public/icons/share.svg";
 
 interface Props {
   url: string;
+  type?: "card" | "page";
 }
 
-const { url } = Astro.props;
+const { url, type = "card" } = Astro.props;
+const typeClasses = {
+  card: "absolute top-2 right-2 rounded-full opacity-0 group-hover:opacity-100 bg-[#1e1e1e] hover:bg-[#1e1e1e]/80",
+  page: "hover:bg-neutral-800 border border-white/10 rounded",
+};
+
+const classes = [
+  "p-1 bg-[#1e1e1e] hover:bg-[#1e1e1e]/80 text-white cursor-pointer",
+  typeClasses[type],
+];
 ---
 
 <button
-  class="p-1 rounded-full bg-[#1e1e1e] hover:bg-[#1e1e1e]/80 text-white absolute top-2 right-2 opacity-0 cursor-pointer hover:opacity-100 transition-opacity duration-300 group-hover:opacity-100"
+  class={`p-1 hover:bg-fuchsia-300/15 text-white cursor-pointer transition-all duration-300 ${classes}`}
   data-share-button
   data-url={url}
 >
-  <ShareIcon width={20} height={20} />
+  <ShareIcon
+    width={type === "card" ? 20 : 24}
+    height={type === "card" ? 20 : 24}
+    stroke-width={1}
+  />
 </button>
 <script>
   const shareButtons = document.querySelectorAll("[data-share-button]");

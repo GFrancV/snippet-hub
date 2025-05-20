@@ -48,7 +48,7 @@ const SnippetOptions = ({ id }: Props) => {
         <button
           onClick={toggleDropdown}
           type="button"
-          className="inline-flex w-full rounded-md bg-[#1e1e1e] text-sm text-[#f1f1ef] shadow-xs ring-1 ring-[#f1f1ef]/5 ring-inset p-1 transition duration-300 cursor-pointer hover:ring-[#f1f1ef]/15"
+          className="inline-flex w-full rounded-md bg-[#1e1e1e] text-sm text-[#f1f1ef] border border-white/10 p-1 transition duration-300 cursor-pointer hover:bg-fuchsia-300/15"
           aria-expanded={isOpen}
           aria-haspopup="true"
         >
@@ -59,14 +59,14 @@ const SnippetOptions = ({ id }: Props) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
             <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-            <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+            <path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
           </svg>
           <span className="sr-only">Options</span>
         </button>
