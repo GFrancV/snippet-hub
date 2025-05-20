@@ -75,13 +75,13 @@ const TagsManager: React.FC<TagsManagerProps> = ({
         const errorData = await response.json();
         alert(`Error al crear la etiqueta: ${errorData.message}`);
       } else if (response.status === 401) {
-        alert("No autorizado para crear etiquetas.");
+        alert("Not authorized to create labels.");
       } else if (response.status === 429) {
-        alert("Has alcanzado el límite de creación de etiquetas.");
+        alert("You have reached the tag creation limit.");
       } else if (response.status === 409) {
-        alert("La etiqueta ya existe.");
+        alert("The label already exists.");
       } else {
-        alert("Error al crear la etiqueta.");
+        alert("Error creating label.");
       }
     }
   };
@@ -92,50 +92,70 @@ const TagsManager: React.FC<TagsManagerProps> = ({
   };
 
   return (
-    <div>
-      <h3>Etiquetas</h3>
-      <div className="selected-tags">
-        {selectedTagIds.map((tagId) => (
-          <span key={tagId} className="tag">
-            {getTagNameById(tagId)}{" "}
-            <button type="button" onClick={() => handleRemoveTag(tagId)}>
-              x
-            </button>
-          </span>
-        ))}
-        {selectedTagIds.length === 0 && (
-          <p className="empty-message">Aún no has seleccionado etiquetas.</p>
-        )}
-      </div>
+    <div className="mt-4 mb-8">
+      <h3 className="text-2xl font-semibold text-[#f1f1ef] mb-2">Tags</h3>
+      <p className="text-body text-neutral-300 text-sm">
+        Add tags to help others find your snippet. Tags should be relevant to
+        the content.
+      </p>
 
-      <h4>Añadir Etiquetas Existentes</h4>
-      <div className="available-tags">
-        {availableTags.map((tagObject) => (
-          <button
-            key={tagObject.id}
-            type="button"
-            onClick={() => handleTagSelection(tagObject)}
-          >
-            {tagObject.name}
-          </button>
-        ))}
-        {availableTags.length === 0 && (
-          <p className="empty-message">No hay etiquetas disponibles.</p>
-        )}
-      </div>
-
-      <h4>Crear Nueva Etiqueta</h4>
-      <div className="create-new-tag">
+      <div className="flex gap-2 mt-4">
         <input
+          className="block bg-[#1e1e1e] rounded-sm border-0 text-[#f1f1ef] focus:ring focus:ring-fuchsia-200 placeholder:text-neutral-600 shadow-lg py-2 px-3 w-full"
           type="text"
-          placeholder="Nueva etiqueta"
+          placeholder="Add Tag..."
           value={newTagInput}
           onChange={handleNewTagInputChange}
         />
-        <button type="button" onClick={handleCreateNewTag}>
-          Crear
+        <button
+          className=" gap-1 border border-fuchsia-200 back rounded-full px-4 py-1.5 transition text-white bg-[#1e1e1e] hover:bg-fuchsia-300/30 hover:border-fuchsia-200 cursor-pointer"
+          type="button"
+          onClick={handleCreateNewTag}
+        >
+          Add
         </button>
       </div>
+
+      <div className="flex gap-2 my-4">
+        {selectedTagIds.map((tagId) => (
+          <span
+            key={tagId}
+            onClick={() => handleRemoveTag(tagId)}
+            className="text-[#f1f1ef] inline-flex gap-2 items-center rounded-full border border-fuchsia-200/75 px-2.5 py-0.5 text-sm font-semibold transition-colors cursor-pointer hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
+          >
+            {getTagNameById(tagId)}
+            <span>x</span>
+          </span>
+        ))}
+        {selectedTagIds.length === 0 && (
+          <p className="text-body text-neutral-300 italic">
+            Aún no has seleccionado etiquetas.
+          </p>
+        )}
+      </div>
+
+      <div className="pt-5 border-t border-neutral-600">
+        <h4 className="text-xl font-semibold text-[#f1f1ef] mb-2">
+          Add Existing Tags
+        </h4>
+        <div className="flex flex-wrap gap-2">
+          {availableTags.map((tagObject) => (
+            <span
+              key={tagObject.id}
+              className="text-[#f1f1ef] inline-flex gap-2 items-center rounded-full border border-fuchsia-200/75 px-2.5 py-0.5 text-sm font-semibold transition-colors cursor-pointer hover:bg-fuchsia-300/30 hover:border-fuchsia-200"
+              onClick={() => handleTagSelection(tagObject)}
+            >
+              {tagObject.name}
+            </span>
+          ))}
+          {availableTags.length === 0 && (
+            <p className="text-body text-neutral-300 italic my-4">
+              No tags available
+            </p>
+          )}
+        </div>
+      </div>
+
       <input
         type="hidden"
         name="tags"
