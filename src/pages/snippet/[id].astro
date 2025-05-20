@@ -1,12 +1,18 @@
 ---
+import TagLabel from "@components/TagLabel.astro";
+import CopyIcon from "@public/icons/copy.svg";
+import CalendarIcon from "@public/icons/calendar.svg";
+import { formatTimeDifference } from "@utils/dateFormatter";
 import { Image } from "astro:assets";
 import { Code } from "astro:components";
 import SnippetOptions from "../../components/SnippetOptions";
 import SnippetStars from "../../components/SnippetStars";
 import Typography from "../../components/Typography.astro";
-import Layout from "../../layouts/Layout.astro";
 import { getSnippet } from "../../service/snippets";
+import ShareButton from "@components/ShareButton.astro";
+import Snippet from "src/layouts/Snippet.astro";
 
+const baseUrl = Astro.site;
 const { id } = Astro.params;
 
 if (!id) {
@@ -17,34 +23,114 @@ const snippet = await getSnippet(id);
 if (!id || snippet === null) {
   return Astro.redirect("/404");
 }
+
+const { userId } = Astro.locals.auth();
+const showSnippetOptions = userId && snippet.clerk_user_id === userId;
 ---
 
-<Layout>
+<Snippet title={snippet.title}>
   <article>
-    <header class="flex items-start justify-between mb-2">
-      <Typography as="h1" variant="h2" color="white">
-        {snippet.title}
-      </Typography>
-      <div>
-        <SnippetStars id={snippet.id} client:load />
-        <span class="flex gap-2 items-center">
+    <div class="grid grid-cols-4 gap-4 mb-6">
+      <div class="col-span-3">
+        <span class="flex gap-2 items-center mb-2">
           <Image
             src={`/icons/${snippet.language}.svg`}
             alt={`${snippet.language} logo`}
             width={24}
             height={24}
           />
-          <Typography as="span" variant="body" color="neutral">
+          <Typography as="span" variant="small" color="neutral">
             {snippet.language}
           </Typography>
+          <div
+            class="inline-flex items-center rounded-full border border-[#f1f1ef]/50 px-2.5 py-0.5 text-xs font-semibold transition-colors ml-2 text-[#f1f1ef]"
+            data-v0-t="badge"
+          >
+            <CalendarIcon class="text-white mr-1" width={18} height={18} />
+            {formatTimeDifference(snippet.created_at)}
+          </div>
         </span>
+        <Typography as="h1" variant="h2" color="white">
+          {snippet.title}
+        </Typography>
+        {
+          snippet.description && (
+            <Typography as="p" variant="body" color="neutral" class="mt-2">
+              {snippet.description}
+            </Typography>
+          )
+        }
+        {
+          snippet.tags && snippet.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1 mt-4 mb-6">
+              {snippet.tags.map(({ name }) => (
+                <TagLabel tag={name} />
+              ))}
+            </div>
+          )
+        }
       </div>
-      <SnippetOptions id={snippet.id} client:load />
-    </header>
-    <Typography as="p" variant="body" color="neutral" class="mb-4">
-      {snippet.description}
-    </Typography>
-    <div class=""></div>
-    <Code code={snippet.code} lang={snippet.language} class="p-4" />
+      <div class="col-span-1 flex items-center gap-3">
+        <SnippetStars id={snippet.id} client:load />
+        <ShareButton
+          url={`${baseUrl?.href}snippet/${snippet.id}`}
+          type="page"
+        />
+        {showSnippetOptions && <SnippetOptions id={snippet.id} client:load />}
+      </div>
+    </div>
   </article>
-</Layout>
+  <div class="relative">
+    <Code
+      code={snippet.code}
+      lang={snippet.language as any}
+      theme="dracula"
+      class="p-4 min-h-48"
+    />
+    <button
+      class="absolute top-2 right-2 p-2 rounded-md bg-[#1e1e1e] hover:bg-fuchsia-300/15 cursor-pointer transition duration-300"
+      data-copy-clipboard
+      data-clipboard-text={snippet.code}
+    >
+      <CopyIcon class="text-[#f1f1ef]" width={18} height={18} />
+    </button>
+    <script>
+      const copyButton = document.querySelector("[data-copy-clipboard]");
+      if (copyButton) {
+        copyButton.addEventListener("click", () => {
+          const code = copyButton.getAttribute("data-clipboard-text");
+          if (!code) return;
+
+          navigator.clipboard.writeText(code).then(() => {
+            alert("Code copied to clipboard!");
+          });
+        });
+      }
+    </script>
+  </div>
+  <Fragment slot="aside">
+    <section class="p-4 border border-white/10 rounded bg-black/15 mb-6">
+      <Typography as="h4" variant="h4" color="white" class="mb-4">
+        Tags
+      </Typography>
+      {
+        snippet.tags && snippet.tags.length > 0 ? (
+          <div class="flex flex-wrap gap-1 mt-4 mb-6">
+            {snippet.tags.map(({ name }) => (
+              <TagLabel tag={name} />
+            ))}
+          </div>
+        ) : (
+          <Typography as="p" variant="small" color="neutral">
+            No tags available
+          </Typography>
+        )
+      }
+    </section>
+    <section class="p-4 border border-white/10 rounded bg-black/15">
+      <Typography as="h4" variant="h4" color="white" class="mb-4">
+        Related Snippets
+      </Typography>
+    </section>
+  </Fragment>
+</Snippet>
