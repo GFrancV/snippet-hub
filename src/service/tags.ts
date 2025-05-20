@@ -1,3 +1,4 @@
+import type { Tables } from "src/lib/database.types";
 import { supabase } from "../lib/supabase";
 
 export const getTags = async () => {
@@ -10,14 +11,20 @@ export const getTags = async () => {
   return data;
 };
 
-export const createTag = async (tag: string) => {
-  const { error } = await supabase.from("tags").insert([{ name: tag }]);
+export const createTag = async (
+  tag: string
+): Promise<Tables<"tags"> | null> => {
+  const { data, error } = await supabase
+    .from("tags")
+    .insert([{ name: tag }])
+    .select("*")
+    .single();
   if (error) {
     console.error("Error creating tag:", error);
-    return false;
+    return null;
   }
 
-  return true;
+  return data;
 };
 
 export const checkExistingTag = async (tag: string) => {
