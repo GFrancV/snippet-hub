@@ -37,15 +37,15 @@ const SnippetStars: React.FC<StarButtonProps> = ({ id }) => {
       });
   };
 
-  const checkStarred = () => {
-    fetch(`/api/snippets/${id}/starred`)
-      .then((response) => response.json())
-      .then((data) => {
-        setIsStarred(data);
-      })
-      .catch((error) => {
-        console.error("Error checking starred status:", error);
-      });
+  const checkStarred = async () => {
+    const response = await fetch(`/api/snippets/${id}/starred`);
+
+    if (response.ok) {
+      const data = await response.json();
+      setIsStarred(data);
+    } else {
+      setIsStarred(false);
+    }
   };
 
   useEffect(() => {
