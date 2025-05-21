@@ -1,0 +1,26 @@
+---
+import Analytics from "@vercel/analytics/astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "SnippetHub" } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+<title>{title}</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#121212" />
+
+<meta name="keywords" content="snippets, gfrancv, snippethub" />
+
+<meta name="robots" content="index, follow" />
+
+<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+
+<meta name="generator" content={Astro.generator} />
+<link rel="canonical" href={Astro.url} />
+
+<Analytics />
