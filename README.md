@@ -1,8 +1,22 @@
-# 🚀 SnippetHub
+<div align="center">
 
-![SnippetHub Logo](https://i.imgur.com/your-logo-or-a-nice-screenshot.png)
+<img src="public/images/og.png" />
 
-## 💡 Project Description
+![Astro](https://img.shields.io/badge/astro-%232C2052.svg?style=for-the-badge&logo=astro&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)
+
+<a href="#overview">Overview</a>
+•
+<a href="#✨-key-features">Key Features</a>
+•
+<a href="#🚀-getting-started-local-setup">Getting Started</a>
+
+</div>
+
+## Overview
 
 **SnippetHub** is a modern and minimalist web platform designed to centralize and facilitate the **management, discovery, and sharing of code snippets**. In a world where developers constantly seek quick solutions and references, SnippetHub positions itself as the personal and collaborative hub where you can organize your own code knowledge and explore the expertise of others.
 
@@ -15,22 +29,9 @@ The platform allows users to **create, edit, and view snippets** with **syntax h
 - **Tag Management:** Associate multiple tags with each snippet for flexible organization and efficient search. Users can create new tags instantly.
 - **Search and Filtering:** Quickly find specific snippets using the search bar and filters by language or tags. (Assuming you implemented search, if not, adjust this).
 - **User Authentication:** Secure registration and login, allowing users to manage their own snippets.
-- **Intuitive User Interface:** Clean, modern design with a **dark theme** (`Dracula` or `Andromeda` as the code theme base) that prioritizes user experience and readability.
+- **Intuitive User Interface:** Clean, modern design with a **dark theme** that prioritizes user experience and readability.
 - **Dedicated Snippet Pages:** Each snippet has its own page, displaying the code, description, metadata, and potentially related snippets.
 - **"My Snippets" Page:** A personal area where users can view and manage all the snippets they have created. (If you implemented this functionality).
-
-## 🛠️ Technologies Used
-
-This project has been built using a modern and robust tech stack to ensure performance, scalability, and an excellent development experience:
-
-- **Frontend:**
-  - **Astro:** For optimized web performance and an islands architecture, enabling minimal JavaScript delivery.
-  - **React:** Used for interactive and dynamic components within Astro.
-  - **TailwindCSS**: For rapid and responsive style development.
-- **Authentication:**
-  - **Clerk:** A robust and easy-to-integrate authentication solution for user management.
-- **Database:**
-  - **Supabase:** An open-source database with real-time, authentication, and storage functionalities, used as the backend.
 
 ## 🚀 Getting Started (Local Setup)
 
